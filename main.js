@@ -27,21 +27,21 @@ function drawCost(count){
     ctx.lineWidth = 6;
     ctx.font = "72px \"Noto Sans HK\"";
     
-    ctx.strokeText("價錢", 100, 800);
-    ctx.fillText("價錢", 100, 800);
+    ctx.strokeText("價錢", 50, 890);
+    ctx.fillText("價錢", 50, 890);
 
     ctx.lineWidth = 3;
-    ctx.fillRect(265, 760, 10, 10)
-    ctx.strokeRect(265, 760, 10, 10)
+    ctx.fillRect(215, 850, 10, 10)
+    ctx.strokeRect(215, 850, 10, 10)
 
-    ctx.fillRect(265, 780, 10, 10)
-    ctx.strokeRect(265, 780, 10, 10)
+    ctx.fillRect(215, 870, 10, 10)
+    ctx.strokeRect(215, 870, 10, 10)
 
     for (let i = 0; i < count; i++) {
         const img = new Image();
         img.src = "./money.svg"
         img.addEventListener("load", () => {
-            ctx.drawImage(img, 300 + i * 105, 730, 80, 80)
+            ctx.drawImage(img, 255 + i * 105, 820, 80, 80)
             console.log("drawn")
         })
     }
@@ -53,21 +53,21 @@ function drawDistance(count){
     ctx.lineWidth = 6;
     ctx.font = "72px \"Noto Sans HK\"";
     
-    ctx.strokeText("距離", 100, 940);
-    ctx.fillText("距離", 100, 940);
+    ctx.strokeText("距離", 50, 1030);
+    ctx.fillText("距離", 50, 1030);
 
     ctx.lineWidth = 3;
-    ctx.fillRect(265, 900, 10, 10)
-    ctx.strokeRect(265, 900, 10, 10)
+    ctx.fillRect(215, 990, 10, 10)
+    ctx.strokeRect(215, 990, 10, 10)
 
-    ctx.fillRect(265, 920, 10, 10)
-    ctx.strokeRect(265, 920, 10, 10)
+    ctx.fillRect(215, 1010, 10, 10)
+    ctx.strokeRect(215, 1010, 10, 10)
 
     for (let i = 0; i < count; i++) {
         const img = new Image();
         img.src = "./walking.svg"
         img.addEventListener("load", () => {
-            ctx.drawImage(img, 297 + i * 105, 870, 90, 97)
+            ctx.drawImage(img, 245 + i * 105, 950, 90, 97)
             console.log("drawn")
         })
     }
@@ -109,7 +109,7 @@ function drawWatermark(color){
 document.fonts.ready.then(() => {
     
     drawBackground("#0e7b4c", "000000")
-    drawTitle("你好世界")
+    drawTitle("模板")
     drawCost(5)
     drawDistance(5)
     drawWatermark()
