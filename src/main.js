@@ -111,21 +111,19 @@ function drawWatermark(color){
     })
 }
 
-function drawQRCode(link, bdg){
+async function drawQRCode(link, bdg){
     ctx.strokeStyle = bdg;
     ctx.linewidth = 30;
     const qrcode = new QRCodeStyling({"width":300,"height":300,"data":link,"margin":0,"qrOptions":{"typeNumber":"0","mode":"Byte","errorCorrectionLevel":"Q"},"imageOptions":{"hideBackgroundDots":true,"imageSize":0.4,"margin":0},"dotsOptions":{"type":"extra-rounded","color":"#6a1a4c"},"backgroundOptions":{"color":"#ffffff"},"image":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5Mi4zIDEzMi4zIj48cGF0aCBmaWxsPSIjMWE3M2U4IiBkPSJNNjAuMiAyLjJDNTUuOC44IDUxIDAgNDYuMSAwIDMyIDAgMTkuMyA2LjQgMTAuOCAxNi41bDIxLjggMTguM0w2MC4yIDIuMnoiLz48cGF0aCBmaWxsPSIjZWE0MzM1IiBkPSJNMTAuOCAxNi41QzQuMSAyNC41IDAgMzQuOSAwIDQ2LjFjMCA4LjcgMS43IDE1LjcgNC42IDIybDI4LTMzLjMtMjEuOC0xOC4zeiIvPjxwYXRoIGZpbGw9IiM0Mjg1ZjQiIGQ9Ik00Ni4yIDI4LjVjOS44IDAgMTcuNyA3LjkgMTcuNyAxNy43IDAgNC4zLTEuNiA4LjMtNC4yIDExLjQgMCAwIDEzLjktMTYuNiAyNy41LTMyLjctNS42LTEwLjgtMTUuMy0xOS0yNy0yMi43TDMyLjYgMzQuOGMzLjMtMy44IDguMS02LjMgMTMuNi02LjMiLz48cGF0aCBmaWxsPSIjZmJiYzA0IiBkPSJNNDYuMiA2My44Yy05LjggMC0xNy43LTcuOS0xNy43LTE3LjcgMC00LjMgMS41LTguMyA0LjEtMTEuM2wtMjggMzMuM2M0LjggMTAuNiAxMi44IDE5LjIgMjEgMjkuOWwzNC4xLTQwLjVjLTMuMyAzLjktOC4xIDYuMy0xMy41IDYuMyIvPjxwYXRoIGZpbGw9IiMzNGE4NTMiIGQ9Ik01OS4xIDEwOS4yYzE1LjQtMjQuMSAzMy4zLTM1IDMzLjMtNjMgMC03LjctMS45LTE0LjktNS4yLTIxLjNMMjUuNiA5OGMyLjYgMy40IDUuMyA3LjMgNy45IDExLjMgOS40IDE0LjUgNi44IDIzLjEgMTIuOCAyMy4xczMuNC04LjcgMTIuOC0yMy4yIi8+PC9zdmc+","dotsOptionsHelper":{"colorType":{"single":true,"gradient":false},"gradient":{"linear":true,"radial":false,"color1":"#6a1a4c","color2":"#6a1a4c","rotation":"0"}},"cornersSquareOptions":{"type":"extra-rounded","color":"#000000"},"cornersSquareOptionsHelper":{"colorType":{"single":true,"gradient":false},"gradient":{"linear":true,"radial":false,"color1":"#000000","color2":"#000000","rotation":"0"}},"cornersDotOptions":{"type":"","color":"#000000"},"cornersDotOptionsHelper":{"colorType":{"single":true,"gradient":false},"gradient":{"linear":true,"radial":false,"color1":"#000000","color2":"#000000","rotation":"0"}},"backgroundOptionsHelper":{"colorType":{"single":true,"gradient":false},"gradient":{"linear":true,"radial":false,"color1":"#ffffff","color2":"#ffffff","rotation":"0"}}});
-    qrcode.getRawData("svg").then((blob) => {
-        const img = new Image();
-        blobToDataURL(blob).then((dataurl) => {
-            img.src = dataurl;
-            img.addEventListener("load", () => {
-                ctx.drawImage(img, 805, 680, 220, 220);
-                ctx.beginPath();
-                ctx.roundRect(800, 675, 230, 230, 25);
-                ctx.stroke();
-            });
-        });
+    const blob = await qrcode.getRawData("svg");
+    const dataurl = await blobToDataURL(blob);
+    const img = new Image();
+    img.src = dataurl;
+    img.addEventListener("load", () => {
+        ctx.drawImage(img, 805, 680, 220, 220);
+        ctx.beginPath();
+        ctx.roundRect(800, 675, 230, 230, 25);
+        ctx.stroke();
     });
     // qrcode.download() // putting this makes the code work somehow?
 }
@@ -148,7 +146,7 @@ function drawPhoto(photo, bdg, imgcoeff, imgy){
     })
 }
 
-function drawTemplate(){
+async function drawTemplate(){
     let formdata = new FormData(form);
     let backgroundColor = formdata.get("bgc"),
         borderColor = formdata.get("bdc"),
@@ -161,16 +159,15 @@ function drawTemplate(){
         imgcoeff = formdata.get("imgcoeff"),
         imgy = formdata.get("imgy") * 10;
 
-    blobToDataURL(photo).then((dataurl) => {
-        drawBackground(backgroundColor, borderColor)
-        drawTitle(title)
-        drawCost(cost)
-        drawDistance(distance)
-        drawWatermark(watermarkColor)
-        console.log(photo)
-        drawPhoto(dataurl, borderColor, imgcoeff, imgy)
-        drawQRCode(gmaplink, borderColor)
-    });
+    const dataurl = await blobToDataURL(photo);
+    drawBackground(backgroundColor, borderColor)
+    drawTitle(title)
+    drawCost(cost)
+    drawDistance(distance)
+    drawWatermark(watermarkColor)
+    console.log(photo)
+    drawPhoto(dataurl, borderColor, imgcoeff, imgy)
+    drawQRCode(gmaplink, borderColor)
 }
 
 document.fonts.ready.then(() => {
