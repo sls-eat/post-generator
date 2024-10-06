@@ -1,19 +1,41 @@
-body {
-    height: 100vh;
-    font-family: Teko; /* need this for canvas to work on chrome */
-    font-size: 1.5em;
+@media all and (max-width: 1366px) and (orientation:portrait) 
+{
+    #app {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5em;
+    }
+    #canvas {
+        height: 95vw;
+        width: 95vw;
+    }
+    body {
+        height: 100vh;
+        font-family: Teko;
+        font-size: 3em;
+    }
+    input{
+        height: 4em;
+    }
 }
 
-#app {
-    display: flex;
-    flex-direction: row;
-    gap: 2em;
-}
-
-#canvas {
-    height: 90%;
+@media all and (min-width: 1366px) 
+{
+    #app {
+        display: flex;
+        flex-direction: row;
+        gap: 2em;
+    }
+    #canvas {
+        height: 90vh;
+    }
+    body {
+        height: 100vh;
+        font-family: Teko;
+        font-size: 1.5em;
+    }
 }
 
 input[type="range"] {
-    width:25%;
+    width:25vw;
 }
