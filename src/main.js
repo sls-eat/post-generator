@@ -50,7 +50,7 @@ function drawCost(count){
 
     for (let i = 0; i < count; i++) {
         const img = new Image();
-        img.src = "./money.svg"
+        img.src = "./assets/money.svg"
         img.addEventListener("load", () => {
             ctx.drawImage(img, 255 + i * 105, 820, 80, 80)
         })
@@ -75,7 +75,7 @@ function drawDistance(count){
 
     for (let i = 0; i < count; i++) {
         const img = new Image();
-        img.src = "./walking.svg"
+        img.src = "./assets/walking.svg"
         img.addEventListener("load", () => {
             ctx.drawImage(img, 245 + i * 105, 950, 90, 97)
         })
@@ -98,7 +98,7 @@ function drawWatermark(color){
     ctx.fill();
 
     const img = new Image();
-    img.src = "./logo.png"
+    img.src = "./assets/logo.png"
     img.addEventListener("load", () => {
         ctx.drawImage(img, 830, 980, 82, 67)
     })
@@ -180,7 +180,7 @@ document.fonts.ready.then(() => {
     drawDistance(5)
     drawWatermark("#c8a96b")
     drawQRCode("https://maps.app.goo.gl/uJG1bvnPGHKobPus8", "#03007e")
-    drawPhoto("./testing_image.png", "000000", 0.5, 250)
+    drawPhoto("./assets/testing_image.png", "000000", 0.5, 250)
 });
 
 let inputs = document.getElementsByTagName("input");
