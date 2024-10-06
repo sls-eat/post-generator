@@ -6,12 +6,57 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@100..900&family=Teko:wght@300..700&display=swap" rel="stylesheet">
+        <link href="./style.css" rel="stylesheet">
         <script type="text/javascript" src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
         <script defer src="./main.js"></script>
     </head>
     <body>
-        <canvas id="canvas" width="1080" height="1080"></canvas>
-        <p style="font-family:Teko;">HELLO WORLD @SLS_EAT</p>
-        <svg src="./walking.svg"></svg>
+        <div id="app">
+            <canvas id="canvas" width="1080" height="1080" style="height: 90vh;"></canvas>
+            <form id="form">
+                <table>
+                    <tr>
+                        <td><label for="bgc">Background color:</label></td>
+                        <td><input type="color" id="bgc" name="bgc" value="#0e7b4c"/></td>
+                    </tr>
+                    <tr>
+                        <td><label for="bdc">Border color:</label></td>
+                        <td><input type="color" id="bdc" name="bdc" value="#03007e"/></td>
+                    </tr>
+                    <tr>
+                        <td><label for="wmc">Watermark color:</label></td>
+                        <td><input type="color" id="wmc" name="wmc" value="#c8a96b"/></td>
+                    </tr>
+                    <tr>
+                        <td><label for="title">Title:</label></td>
+                        <td><input type="text" id="title" name="title" placeholder="模板"/></td>
+                    </tr>
+                    <tr>
+                        <td><label for="geld">Cost:</label></td>
+                        <td><input type="range" id="geld" name="geld" min="1" max="5" value="3"/></td>
+                    </tr>
+                    <tr>
+                        <td><label for="s">Distance:</label></td>
+                        <td><input type="range" id="s" name="s" min="1" max="5" value="3"/></td>
+                    </tr>
+                    <tr>
+                        <td><label for="gmap">Google maps link:</label></td>
+                        <td><input type="url" id="gmap" name="gmap" placeholder="https://maps.app.goo.gl/E9DdDr99ry96kH7L6"/></td>
+                    </tr>
+                    <tr>
+                        <td><label for="restimg">Restaraunt image:</label></td>
+                        <td><input type="file" id="restimg" name="restimg"/></td>
+                    </tr>
+                    <tr>
+                        <td><label for="imgcoeff">Image resize coefficient:</label></td>
+                        <td><input type="range" id="imgcoeff" name="imgcoeff" min="0" max="2" step="0.1"/></td>
+                    </tr>
+                    <tr>
+                        <td><label for="imgy">Image y (left top corner):</label></td>
+                        <td><input type="range" id="imgy" name="imgy" min="0" max="108" value="25"/></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
     </body>
 </html>

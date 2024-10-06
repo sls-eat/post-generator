@@ -1,6 +1,8 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
+const form = document.getElementById("form");
+
 function blobToDataURL(blob){
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -26,7 +28,6 @@ function drawTitle(title){
     ctx.font = "bold 84px \"Noto Sans HK\"";
     
     let textwidth = ctx.measureText(title).width;
-    console.log(textwidth)
     ctx.strokeText(title, 540 - textwidth/2, 160);
     ctx.fillText(title, 540 - textwidth/2, 160);
 }
@@ -52,7 +53,6 @@ function drawCost(count){
         img.src = "./money.svg"
         img.addEventListener("load", () => {
             ctx.drawImage(img, 255 + i * 105, 820, 80, 80)
-            console.log("drawn")
         })
     }
 }
@@ -78,14 +78,12 @@ function drawDistance(count){
         img.src = "./walking.svg"
         img.addEventListener("load", () => {
             ctx.drawImage(img, 245 + i * 105, 950, 90, 97)
-            console.log("drawn")
         })
     }
 }
 
 function drawWatermark(color){
-    color = "#C8A96B"
-    ctx.fillStyle = "#C8A96B";
+    ctx.fillStyle = color;
 
     ctx.beginPath();
     ctx.moveTo(819, 998);
@@ -99,19 +97,16 @@ function drawWatermark(color){
     ctx.lineTo(819, 998);
     ctx.fill();
 
-    console.log("hi")
     const img = new Image();
     img.src = "./logo.png"
     img.addEventListener("load", () => {
         ctx.drawImage(img, 830, 980, 82, 67)
-        console.log("drawn")
     })
-
-    ctx.fillStyle = "#03007E";
-    ctx.lineWidth = 10;
-    ctx.font = "36px \"Teko\"";
     
     document.fonts.ready.then(() => {
+        ctx.fillStyle = "#03007e";
+        ctx.lineWidth = 10;
+        ctx.font = "36px \"Teko\"";
         ctx.fillText("@SLS_EAT", 925, 1030);
     })
 }
@@ -124,21 +119,71 @@ function drawQRCode(link, bdg){
         const img = new Image();
         blobToDataURL(blob).then((dataurl) => {
             img.src = dataurl;
-            ctx.drawImage(img, 805, 680, 200, 200)
-            ctx.beginPath();
-            ctx.roundRect(800, 675, 210, 210, 25);
-            ctx.stroke();
+            img.addEventListener("load", () => {
+                ctx.drawImage(img, 805, 680, 220, 220);
+                ctx.beginPath();
+                ctx.roundRect(800, 675, 230, 230, 25);
+                ctx.stroke();
+            });
         });
     });
     // qrcode.download() // putting this makes the code work somehow?
 }
 
+function drawPhoto(photo, bdg, imgcoeff, imgy){
+    const img = new Image();
+    img.src = photo;
+    img.addEventListener("load", () => {
+        ctx.fillStyle = bdg;
+        ctx.lineWidth = 15;
+        let w = img.naturalWidth * imgcoeff;
+        let h = img.naturalHeight * imgcoeff;
+        console.log(w, h);
+        ctx.drawImage(
+            img, (1080 - w)/2, imgy, w, h,
+        )
+        ctx.beginPath();
+        ctx.roundRect((1080 - w)/2 - 5, imgy, w + 10, h + 10, 25);
+        ctx.stroke();
+    })
+}
+
+function drawTemplate(){
+    let formdata = new FormData(form);
+    let backgroundColor = formdata.get("bgc"),
+        borderColor = formdata.get("bdc"),
+        watermarkColor = formdata.get("wmc"),
+        title = formdata.get("title"),
+        cost = formdata.get("geld"),
+        distance = formdata.get("s"),
+        gmaplink = formdata.get("gmap"),
+        photo = formdata.get("restimg"),
+        imgcoeff = formdata.get("imgcoeff"),
+        imgy = formdata.get("imgy") * 10;
+
+    blobToDataURL(photo).then((dataurl) => {
+        drawBackground(backgroundColor, borderColor)
+        drawTitle(title)
+        drawCost(cost)
+        drawDistance(distance)
+        drawWatermark(watermarkColor)
+        console.log(photo)
+        drawPhoto(dataurl, borderColor, imgcoeff, imgy)
+        drawQRCode(gmaplink, borderColor)
+    });
+}
+
 document.fonts.ready.then(() => {
-    
-    drawBackground("#0e7b4c", "000000")
+    drawBackground("#0e7b4c", "#03007e")
     drawTitle("模板")
     drawCost(5)
     drawDistance(5)
-    drawWatermark()
-    drawQRCode("冇問", "#03007E")
+    drawWatermark("#c8a96b")
+    drawQRCode("https://maps.app.goo.gl/uJG1bvnPGHKobPus8", "#03007e")
+    drawPhoto("./testing_image.png", "000000", 0.5, 250)
 });
+
+let inputs = document.getElementsByTagName("input");
+for (let input of inputs){
+    input.addEventListener("change", drawTemplate)
+}

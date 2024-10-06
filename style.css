@@ -1,0 +1,19 @@
+body {
+    height: 100vh;
+    font-family: Teko; /* need this for canvas to work on chrome */
+    font-size: 1.5em;
+}
+
+#app {
+    display: flex;
+    flex-direction: row;
+    gap: 2em;
+}
+
+#canvas {
+    height: 90%;
+}
+
+input[type="range"] {
+    width:25%;
+}
