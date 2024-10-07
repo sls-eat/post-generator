@@ -180,11 +180,12 @@ document.fonts.ready.then(() => {
     drawCost(5)
     drawDistance(5)
     drawWatermark("#c8a96b")
-    drawPhoto("./assets/testing_image.png", "#03007e", 0.5, 250)
-    drawQRCode("https://maps.app.goo.gl/uJG1bvnPGHKobPus8", "#03007e")
+    drawPhoto("./assets/testing_image.png", "#03007e", 0.5, 250).then(() =>{
+        drawQRCode("https://maps.app.goo.gl/uJG1bvnPGHKobPus8", "#03007e")
+    })
 });
 
-let inputs = document.getElementsByTagName("input");
+const inputs = document.getElementsByTagName("input");
 for (let input of inputs){
     input.addEventListener("change", drawTemplate)
 }
